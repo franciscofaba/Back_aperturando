@@ -16,7 +16,8 @@ export const getEnvios = async (req,res) => {
 
 export const getById = async (req,res) => {
     try{
-        const [rows] = await pool.query('SELECT * FROM envios WHERE envio = ?', [req.param.envio])
+        console.log([req.params.envio])
+        const [rows] = await pool.query('SELECT * FROM envios WHERE envio = ?', [req.params.envio])
         if (rows.length <= 0 ) return res.status(404).json({
             message:'no se encontro envio'
         })
@@ -33,7 +34,7 @@ export const createEnvios = async (req,res) => {
         const {envio, pesoPreaviso, envase, claseEnvio, estadoActual, ultimoAcontecimiento, paisOrigen, paisDestino, ultimaModificacion, identificadorLocal} = req.body
         const [rows] = await pool.query('INSERT INTO envios (envio, pesoPreaviso, envase, claseEnvio, estadoActual, ultimoAcontecimiento, paisOrigen, paisDestino, ultimaModificacion, identificadorLocal)  VALUES (?,?,?,?,?,?,?,?,?,?)',[envio, pesoPreaviso, envase, claseEnvio, estadoActual, ultimoAcontecimiento, paisOrigen, paisDestino, ultimaModificacion, identificadorLocal])
         res.send({
-            id:rows.insertId,
+            id: rows.insertId,
             envio, 
             pesoPreaviso, 
             envase, claseEnvio, 

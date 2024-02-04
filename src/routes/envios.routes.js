@@ -4,7 +4,7 @@ const router = Router()
 
 router.get('/envios', getEnvios)
 
-router.get('/envios:envios', getById)
+router.get('/envios/:envio', getById)
 
 router.post('/envios', createEnvios)
 

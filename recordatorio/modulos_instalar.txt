@@ -5,3 +5,4 @@ npm i mysql2
 npm i nodemon -D
 "dev": "nodemon src/index.js"
 npm i dotenv
+"start" :"node src/index.js"
