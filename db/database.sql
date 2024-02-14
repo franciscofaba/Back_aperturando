@@ -1,6 +1,12 @@
-CREATE DATABASE ips_db;
 
+
+CREATE DATABASE ips_db;
+SET FOREIGN_KEY_CHECKS=0;
 USE ips_db;
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS envases (
     envase VARCHAR(49) PRIMARY KEY,
@@ -32,10 +38,20 @@ CREATE TABLE IF NOT EXISTS envios (
     identificadorLocal VARCHAR(12),
     manifiesto VARCHAR(18),
     pesoEspecificado FLOAT,
+    destino_cl VARCHAR(50),
+    estado_aduana VARCHAR(30),
+    id_lote VARCHAR(50)
     CONSTRAINT FK_enviosenvases FOREIGN KEY (envase)
     REFERENCES envases(envase)
-
+    CONSTRAINT FK_envioslote FOREIGN KEY (id_lote)
+    REFERENCES lotes(lote)
 );
+
+CREATE TABLE IF NOT EXIST lotes(
+    id_lote VARCHAR(50) PRIMARY KEY,
+    estado_aduana VARCHAR(30),
+    estado_despacho VARCHAR(40)   
+)
 
 
 
@@ -55,6 +71,28 @@ CREATE TABLE IF NOT EXISTS trazabilidad (
     REFERENCES envios(envio)
 
 );
+
+
+CREATE TABLE IF NOT EXISTS enviocache(
+    envio VARCHAR(13) PRIMARY KEY,
+    pesoPreaviso FLOAT,
+    envase VARCHAR(29),
+    claseEnvio VARCHAR(30),
+    estadoActual VARCHAR(43),
+    ultimoAcontecimiento VARCHAR(80),
+    paisOrigen VARCHAR(45),
+    paisDestino  VARCHAR(45),
+    ultimaModificacion VARCHAR(20),
+    identificadorLocal VARCHAR(12),
+    manifiesto VARCHAR(18),
+    pesoEspecificado FLOAT,
+    destino_cl VARCHAR(50),
+    estado_aduana VARCHAR(30),
+    id_lote VARCHAR(50)
+);
+
+
+
 SET FOREIGN_KEY_CHECKS=0;
 INSERT INTO envios (envio, pesoPreaviso, envase, claseEnvio, estadoActual, ultimoAcontecimiento, paisOrigen, paisDestino, ultimaModificacion, identificadorLocal)  VALUES ('CH198884460US', '6300.00', 'USLAXACLSCLEACN30626002900063', 'C (Encomiendas (CP))', 'MINL (Normal)', 'Registra Informacion de Envio en Proceso Aduana (Inb)', 'US (United States of America (the))', 'CL (Chile)', '12-02-2023 15:42', '') ;
 INSERT INTO envios (envio, pesoPreaviso, envase, claseEnvio, estadoActual, ultimoAcontecimiento, paisOrigen, paisDestino, ultimaModificacion, identificadorLocal)  VALUES ('CP435601315DE', '14720.00', 'DEFRAACLSCLGBCN31094003000149', 'C (Encomiendas (CP))', 'MINL (Normal)', 'Registra Informacion de Envio en Proceso Aduana (Inb)', 'DE (Germany)', 'CL (Chile)', '12-02-2023 15:42', '');
