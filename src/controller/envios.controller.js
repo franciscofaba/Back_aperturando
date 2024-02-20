@@ -74,6 +74,8 @@ export const updateEnvios = async (req, res) => {
             paisDestino,
             ultimaModificacion,
             identificadorLocal,
+            manifiesto,
+            pesoEspecificado,
             destino_cl,
             estado_aduana,
             id_lotes,
@@ -100,12 +102,14 @@ export const updateEnvios = async (req, res) => {
                 paisDestino = IFNULL(?, paisDestino), 
                 ultimaModificacion = IFNULL(?, ultimaModificacion), 
                 identificadorLocal = IFNULL(?, identificadorLocal), 
+                manifiesto = IFNULL(?, manifiesto),
+                pesoEspecificado = IFNULL (?, pesoEspecificado),
                 destino_cl = IFNULL(?, destino_cl), 
                 estado_aduana = IFNULL(?, estado_aduana), 
                 id_lotes = IFNULL(?, id_lotes),
                 en_proceso = IFNULL(?, en_proceso)
             WHERE envio = ?
-        `, [envio, pesoPreaviso, envase, claseEnvio, estadoActual, ultimoAcontecimiento, paisOrigen, paisDestino, ultimaModificacion, identificadorLocal, destino_cl, estado_aduana, id_lotes, en_proceso ,envio]);
+        `, [envio, pesoPreaviso, envase, claseEnvio, estadoActual, ultimoAcontecimiento, paisOrigen, paisDestino, ultimaModificacion, identificadorLocal, manifiesto, pesoEspecificado, destino_cl, estado_aduana, id_lotes, en_proceso ,envio]);
 
         // Commit de la transacción
         await pool.query('COMMIT');
@@ -115,7 +119,7 @@ export const updateEnvios = async (req, res) => {
             return res.status(404).json({ message: 'No se encontró el envío.' });
         }
 
-        const [rows] = await pool.query('SELECT * FROM envios WHERE envio = ?', [envio]);
+        
         res.json(rows[0]);
     } catch (error) {
         // Si hay un error, hacer rollback de la transacción
